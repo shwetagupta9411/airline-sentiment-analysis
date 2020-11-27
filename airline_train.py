@@ -10,7 +10,7 @@ from sklearn.metrics import confusion_matrix,classification_report,accuracy_scor
 from sklearn.feature_extraction.text import CountVectorizer
 
 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 
 class TrainAirlineSentiment(object):
     def __init__(self, filename):
@@ -50,23 +50,16 @@ class TrainAirlineSentiment(object):
         X = pd.DataFrame(data=corpus,columns=['comment_text'])
         y = df['airline_sentiment'].map({'negative':-1,'positive':1})
         X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=0)
+        print("training", len(X_train),len(y_train))
+        print("testing", len(X_test),len(y_test))
         X_train_word_feature, X_test_word_feature = self.feature_extractor(X_train, X_test)
         return X_train_word_feature, X_test_word_feature, y_train, y_test
 
     def train(self):
         X_train_word_feature, X_test_word_feature, y_train ,y_test = self.data_preparation()
-        # model = LogisticRegression()
-        # model.fit(X_train_word_feature,y_train)
-        # name = "airline_sentiment_model_" + time.strftime("%Y%m%d%H%M%S") + ".sav"
-        # pickle.dump(model, open(name, 'wb'))
-        # # testing
-        # y_pred = model.predict(X_test_word_feature)
-        # cm = confusion_matrix(y_test,y_pred)
-        # acc_score = accuracy_score(y_test,y_pred)
-        # print(classification_report(y_test,y_pred),'\n Confusion Matrix:\n',cm,'\n\nAccuracy:',acc_score)
-        model = RandomForestClassifier()
+        model = LogisticRegression()
         model.fit(X_train_word_feature,y_train)
-        name = "airline_sentiment_model_MultinomialNB" + time.strftime("%Y%m%d%H%M%S") + ".sav"
+        name = "airline_sentiment_model_" + time.strftime("%Y%m%d%H%M%S") + ".sav"
         pickle.dump(model, open(name, 'wb'))
         # testing
         y_pred = model.predict(X_test_word_feature)
