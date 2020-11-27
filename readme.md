@@ -1,5 +1,5 @@
 # Airline sentiment analysis API
-it's an Airline sentiment analysis API server on python3 using Pyramid web framework.
+It's an Airline sentiment analysis API server on python3 using Pyramid web framework.
 
 Set-up the virtual environment :
 
